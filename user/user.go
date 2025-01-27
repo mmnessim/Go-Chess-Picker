@@ -12,7 +12,7 @@ type ChessUser struct {
 	Verified         bool
 	Url              string
 	ApiUrl           string
-	Archives         map[string]interface{}
+	Archives         []interface{}
 	Info             map[string]interface{}
 	League           string
 	UsernameNotFound bool
@@ -66,5 +66,5 @@ func (c *ChessUser) GetArchives() {
 	archives := make(map[string]interface{})
 	json.Unmarshal(body, &archives)
 
-	c.Archives = archives
+	c.Archives = archives["archives"].([]interface{})
 }
