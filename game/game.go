@@ -31,13 +31,14 @@ type White struct {
 }
 
 func (g *Game) Summary() {
-	fmt.Println(g.Black, g.White)
+	fmt.Println("Black:", g.Black, "White", g.White)
+	fmt.Println("Go Analyze:", g.Url)
 }
 
 // Returns Game struct
 func GetRandomGame(u *user.ChessUser) Game {
 	randomArchive := u.Archives[rand.Intn(len(u.Archives))]
-	fmt.Println(randomArchive.(string))
+	//fmt.Println(randomArchive.(string))
 	resp, err := http.Get(randomArchive.(string))
 	if err != nil {
 		fmt.Println(err)

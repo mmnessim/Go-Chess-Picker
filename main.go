@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"strings"
 
 	"go-chess/game"
 	"go-chess/user"
@@ -10,11 +13,35 @@ import (
 func main() {
 	fmt.Println("Hello")
 
-	me := user.New("tenderllama")
-	//fmt.Println(me)
-	me.GetArchives()
-	//fmt.Println(me.Archives)
+	PickUser()
 
-	randomGame := game.GetRandomGame(&me)
-	randomGame.Summary()
+	/*
+		me := user.New("tenderllama")
+		//fmt.Println(me)
+		me.GetArchives()
+		//fmt.Println(me.Archives)
+
+		randomGame := game.GetRandomGame(&me)
+		randomGame.Summary()
+	*/
+}
+
+func PickUser() {
+	fmt.Println("Enter Chess.com Username:")
+
+	scanner := bufio.NewReader(os.Stdin)
+
+	username, _ := scanner.ReadString('\n')
+	u := user.New(strings.TrimSpace(username))
+	u.GetArchives()
+
+	for {
+		fmt.Println("Get random game?y/n")
+		answer, _ := scanner.ReadString('\n')
+		if strings.TrimSpace(answer) == "y" {
+			randomGame := game.GetRandomGame(&u)
+			randomGame.Summary()
+		}
+	}
+
 }
