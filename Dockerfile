@@ -5,4 +5,4 @@ RUN go build
 
 FROM scratch
 COPY --from=0 /src/go-chess /bin
-CMD ["/bin/go-chess"]
+CMD ["./bin/go-chess"]
