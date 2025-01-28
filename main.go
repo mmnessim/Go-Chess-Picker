@@ -41,6 +41,10 @@ func PickUser() {
 		if strings.TrimSpace(answer) == "y" {
 			randomGame := game.GetRandomGame(&u)
 			randomGame.Summary()
+		} else if strings.TrimSpace(answer) == "n" {
+			break
+		} else {
+			continue
 		}
 	}
 
