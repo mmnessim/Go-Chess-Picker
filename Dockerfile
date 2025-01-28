@@ -5,4 +5,4 @@ RUN go build -o bin
 
 FROM scratch
 COPY --from=0 /app/bin /
-CMD ["/bin"]
+ENTRYPOINT ["/bin"]
