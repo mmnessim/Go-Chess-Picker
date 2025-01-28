@@ -5,7 +5,8 @@ RUN go mod tidy
 COPY  . .
 RUN go build -o ./app
 
-FROM debian:bookworm
+FROM debian:bookworm-slim
 WORKDIR /chess
 COPY --from=0 /build .
+RUN apt-get update && apt-get install -y ca-certificates
 ENTRYPOINT ["./app"]
