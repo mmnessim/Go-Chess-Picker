@@ -1,8 +1,11 @@
-FROM golang:1.23
-WORKDIR /app
-COPY . .
-RUN go build -o bin
+FROM golang:latest
+WORKDIR /build
+COPY ./go.mod go.mod
+RUN go mod tidy
+COPY  . .
+RUN go build -o ./app
 
-FROM scratch
-COPY --from=0 /app/bin /
-ENTRYPOINT ["/bin"]
+FROM alpine:latest
+WORKDIR /chess
+COPY --from=0 /build .
+CMD ["./app"]
