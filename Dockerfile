@@ -3,6 +3,6 @@ WORKDIR /src
 COPY . .
 RUN go build -o /bin/go-chess ./main.go
 
-FROM scratch
+FROM alpine:latest
 COPY --from=0 /bin/go-chess /bin/go-chess
 CMD ["/bin/go-chess"]
