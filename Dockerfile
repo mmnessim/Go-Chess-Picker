@@ -8,4 +8,4 @@ RUN go build -o ./app
 FROM alpine:latest
 WORKDIR /chess
 COPY --from=0 /build .
-CMD ["./app"]
+ENTRYPOINT ["./app"]
