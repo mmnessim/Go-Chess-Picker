@@ -3,27 +3,21 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"net/http"
 	"os"
 	"strings"
 
 	"go-chess/game"
+	"go-chess/handlers"
 	"go-chess/user"
 )
 
 func main() {
 	fmt.Println("Hello")
 
-	PickUser()
-
-	/*
-		me := user.New("tenderllama")
-		//fmt.Println(me)
-		me.GetArchives()
-		//fmt.Println(me.Archives)
-
-		randomGame := game.GetRandomGame(&me)
-		randomGame.Summary()
-	*/
+	//PickUser()
+	http.HandleFunc("/", handlers.Index)
+	http.ListenAndServe(":8080", nil)
 }
 
 func PickUser() {

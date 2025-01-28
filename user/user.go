@@ -46,6 +46,8 @@ func (c *ChessUser) init() {
 	c.Url = bodyMap["url"].(string)
 	c.League = bodyMap["league"].(string)
 	c.ApiUrl = apiUrl
+
+	c.GetArchives()
 }
 
 func (c *ChessUser) GetArchives() {
