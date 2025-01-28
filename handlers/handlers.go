@@ -29,14 +29,15 @@ func Game(w http.ResponseWriter, r *http.Request) {
 	person := user.New(username)
 	if person.UsernameNotFound {
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+	} else {
+		randomGame := game.GetRandomGame(&person)
+
+		templ, err := template.ParseFiles("public/layout.html", "public/game.html")
+		if err != nil {
+			fmt.Fprintf(w, "Error %s", err)
+		}
+
+		templ.Execute(w, randomGame)
 	}
 
-	randomGame := game.GetRandomGame(&person)
-
-	templ, err := template.ParseFiles("public/layout.html", "public/game.html")
-	if err != nil {
-		fmt.Fprintf(w, "Error %s", err)
-	}
-
-	templ.Execute(w, randomGame)
 }
