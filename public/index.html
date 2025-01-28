@@ -1,23 +1,13 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Chess Picker</title>
-        <link href="https://c2a.chesstempo.com/pgnviewer/v2.5/pgnviewerext.vers1.css" media="all" rel="stylesheet" crossorigin>
-        <script defer language="javascript" src="https://c1a.chesstempo.com/pgnviewer/v2.5/pgnviewerext.bundle.vers1.js" crossorigin></script>
-
-        <link
-        href="https://c1a.chesstempo.com/fonts/MaterialIcons-Regular.woff2"
-        rel="stylesheet" crossorigin>
-    </head>
-    <body>
-        <h1>
-            {{ .White.Username }} ({{ .White.Rating }} ELO) vs
-            {{ .Black.Username }} ({{ .Black.Rating }} ELO)
-        </h1>
-        <h3> White {{ .White.Result }} Black {{ .Black.Result }}</h3>
-        <a href="{{ .Url }}" target="_blank">Go Analyze on Chess.com</a>
-        <ct-pgn-viewer>
-            {{ .Pgn }}
-        </ct-pgn-viewer>
-    </body>
-</html>
+{{define "content"}}
+<div>
+    <h1>
+        {{ .White.Username }} ({{ .White.Rating }} ELO) vs
+        {{ .Black.Username }} ({{ .Black.Rating }} ELO)
+    </h1>
+    <h3> White {{ .White.Result }} Black {{ .Black.Result }}</h3>
+    <a href="{{ .Url }}" target="_blank">Go Analyze on Chess.com</a>
+    <ct-pgn-viewer>
+        {{ .Pgn }}
+    </ct-pgn-viewer>
+</div>
+{{end}}
