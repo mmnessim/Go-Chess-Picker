@@ -5,7 +5,7 @@ RUN go mod tidy
 COPY  . .
 RUN go build -o ./app
 
-FROM debian:bookworm-slim
+FROM debian:bookworm
 WORKDIR /chess
 COPY --from=0 /build .
 ENTRYPOINT ["./app"]
