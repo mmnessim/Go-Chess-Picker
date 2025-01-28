@@ -10,8 +10,8 @@ import (
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	user := user.New("tenderllama")
-	randomGame := game.GetRandomGame(&user)
+	person := user.New("tenderllama")
+	randomGame := game.GetRandomGame(&person)
 
 	templ, err := template.ParseFiles("public/layout.html", "public/index.html")
 	if err != nil {
@@ -26,8 +26,12 @@ func Game(w http.ResponseWriter, r *http.Request) {
 	// For testing
 	fmt.Println(username)
 
-	user := user.New(username)
-	randomGame := game.GetRandomGame(&user)
+	person := user.New(username)
+	if person.UsernameNotFound {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
+
+	randomGame := game.GetRandomGame(&person)
 
 	templ, err := template.ParseFiles("public/layout.html", "public/game.html")
 	if err != nil {

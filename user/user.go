@@ -41,6 +41,12 @@ func (c *ChessUser) init() {
 	bodyMap := make(map[string]interface{})
 	json.Unmarshal(body, &bodyMap)
 
+	if len(bodyMap) == 0 {
+		fmt.Println("username not found")
+		c.UsernameNotFound = true
+		return
+	}
+
 	c.Info = bodyMap
 	c.Verified = bodyMap["verified"].(bool)
 	c.Url = bodyMap["url"].(string)

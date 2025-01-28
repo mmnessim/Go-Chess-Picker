@@ -15,6 +15,8 @@ import (
 func main() {
 	fmt.Println("Hello")
 
+	badUser := user.New("not a real user")
+	_ = badUser
 	//PickUser()
 	http.HandleFunc("/", handlers.Index)
 	http.HandleFunc("/game", handlers.Game)
