@@ -1,13 +1,9 @@
 {{define "content"}}
 <div>
-    <h1>
-        {{ .White.Username }} ({{ .White.Rating }} ELO) vs
-        {{ .Black.Username }} ({{ .Black.Rating }} ELO)
-    </h1>
-    <h3> White {{ .White.Result }} Black {{ .Black.Result }}</h3>
-    <a href="{{ .Url }}" target="_blank">Go Analyze on Chess.com</a>
-    <ct-pgn-viewer>
-        {{ .Pgn }}
-    </ct-pgn-viewer>
+   <form action="/game" method="POST">
+        <label for="username">Chess.com username</label>
+        <input type="text" name="username" required placeholder="tenderllama"> <br />
+        <input type="submit">
+   </form>
 </div>
 {{end}}

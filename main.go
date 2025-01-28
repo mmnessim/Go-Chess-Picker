@@ -17,6 +17,7 @@ func main() {
 
 	//PickUser()
 	http.HandleFunc("/", handlers.Index)
+	http.HandleFunc("/game", handlers.Game)
 	http.ListenAndServe(":8080", nil)
 }
 
