@@ -1,8 +1,8 @@
 FROM golang:1.23
-WORKDIR /src
+WORKDIR /app
 COPY . .
-RUN go build -o /bin/go-chess ./main.go
+RUN go build -o bin
 
-FROM alpine:latest
-COPY --from=0 /bin/go-chess /app/go-chess
-CMD ["/app/go-chess"]
+FROM scratch
+COPY --from=0 /app/bin /
+CMD ["/bin"]
