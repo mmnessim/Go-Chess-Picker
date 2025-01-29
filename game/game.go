@@ -38,10 +38,8 @@ func (g *Game) Summary() {
 
 // Returns Game struct
 func GetRandomGame(u *user.ChessUser) Game {
-	fmt.Println(u.Archives...)
-	if len(u.Archives) == 0 {
-		fmt.Println("No archives")
-	}
+
+	// Handle invalid users or users with no games
 	if u.UsernameNotFound || len(u.Archives) == 0 {
 		return Game{Err: true}
 	}

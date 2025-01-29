@@ -13,7 +13,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	//person := user.New("tenderllama")
 	//randomGame := game.GetRandomGame(&person)
 
-	templ, err := template.ParseFiles("public/layout.html", "public/index.html")
+	templ, err := template.ParseFiles("public/views/layout.html", "public/views/index.html")
 	if err != nil {
 		fmt.Fprintf(w, "Error %s", err)
 	}
@@ -37,7 +37,7 @@ func Game(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
 
-		templ, err := template.ParseFiles("public/layout.html", "public/game.html")
+		templ, err := template.ParseFiles("public/views/layout.html", "public/views/game.html")
 		if err != nil {
 			fmt.Fprintf(w, "Error %s", err)
 		}
