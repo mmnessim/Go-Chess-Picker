@@ -16,6 +16,7 @@ type Game struct {
 	TimeControl string
 	Black       Black
 	White       White
+	Err         bool
 }
 
 type Black struct {
@@ -37,6 +38,9 @@ func (g *Game) Summary() {
 
 // Returns Game struct
 func GetRandomGame(u *user.ChessUser) Game {
+	if u.UsernameNotFound {
+		return Game{Err: true}
+	}
 	randomArchive := u.Archives[rand.Intn(len(u.Archives))]
 	//fmt.Println(randomArchive.(string))
 	resp, err := http.Get(randomArchive.(string))

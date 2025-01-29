@@ -14,7 +14,6 @@ type ChessUser struct {
 	ApiUrl           string
 	Archives         []interface{}
 	Info             map[string]interface{}
-	League           string
 	UsernameNotFound bool
 }
 
@@ -41,16 +40,20 @@ func (c *ChessUser) init() {
 	bodyMap := make(map[string]interface{})
 	json.Unmarshal(body, &bodyMap)
 
-	if len(bodyMap) == 0 {
-		fmt.Println("username not found")
+	if len(bodyMap) == 0 || bodyMap["message"] != nil {
 		c.UsernameNotFound = true
 		return
 	}
 
 	c.Info = bodyMap
-	c.Verified = bodyMap["verified"].(bool)
-	c.Url = bodyMap["url"].(string)
-	c.League = bodyMap["league"].(string)
+	if bodyMap["verified"] != nil {
+		c.Verified = bodyMap["verified"].(bool)
+	}
+
+	if bodyMap["url"] != nil {
+		c.Url = bodyMap["url"].(string)
+	}
+
 	c.ApiUrl = apiUrl
 
 	c.GetArchives()

@@ -10,15 +10,15 @@ import (
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	person := user.New("tenderllama")
-	randomGame := game.GetRandomGame(&person)
+	//person := user.New("tenderllama")
+	//randomGame := game.GetRandomGame(&person)
 
 	templ, err := template.ParseFiles("public/layout.html", "public/index.html")
 	if err != nil {
 		fmt.Fprintf(w, "Error %s", err)
 	}
 
-	templ.Execute(w, randomGame)
+	templ.Execute(w, nil)
 }
 
 func Game(w http.ResponseWriter, r *http.Request) {

@@ -15,9 +15,11 @@ import (
 func main() {
 	fmt.Println("Hello")
 
+	//test that bad username doesn't crash program
 	badUser := user.New("not a real user")
-	_ = badUser
-	//PickUser()
+	fmt.Println(badUser.UsernameNotFound)
+	badUser.GetArchives()
+
 	http.HandleFunc("/", handlers.Index)
 	http.HandleFunc("/game", handlers.Game)
 	http.ListenAndServe(":8080", nil)
