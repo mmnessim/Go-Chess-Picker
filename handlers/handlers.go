@@ -28,9 +28,14 @@ func Game(w http.ResponseWriter, r *http.Request) {
 
 	person := user.New(username)
 	if person.UsernameNotFound {
+		// Redirect to index if invalid user
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	} else {
 		randomGame := game.GetRandomGame(&person)
+		// Redirect to index if no random game can be found
+		if randomGame.Err {
+			http.Redirect(w, r, "/", http.StatusSeeOther)
+		}
 
 		templ, err := template.ParseFiles("public/layout.html", "public/game.html")
 		if err != nil {

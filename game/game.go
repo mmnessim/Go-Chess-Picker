@@ -38,11 +38,14 @@ func (g *Game) Summary() {
 
 // Returns Game struct
 func GetRandomGame(u *user.ChessUser) Game {
-	if u.UsernameNotFound {
+	fmt.Println(u.Archives...)
+	if len(u.Archives) == 0 {
+		fmt.Println("No archives")
+	}
+	if u.UsernameNotFound || len(u.Archives) == 0 {
 		return Game{Err: true}
 	}
 	randomArchive := u.Archives[rand.Intn(len(u.Archives))]
-	//fmt.Println(randomArchive.(string))
 	resp, err := http.Get(randomArchive.(string))
 	if err != nil {
 		fmt.Println(err)
