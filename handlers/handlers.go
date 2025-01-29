@@ -10,8 +10,6 @@ import (
 )
 
 func Index(w http.ResponseWriter, r *http.Request) {
-	//person := user.New("tenderllama")
-	//randomGame := game.GetRandomGame(&person)
 
 	templ, err := template.ParseFiles("public/views/layout.html", "public/views/index.html")
 	if err != nil {
