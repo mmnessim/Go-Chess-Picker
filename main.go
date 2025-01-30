@@ -13,12 +13,8 @@ import (
 )
 
 func main() {
-	fmt.Println("Hello")
 
-	//test that bad username doesn't crash program
-	badUser := user.New("not a real user")
-	fmt.Println(badUser.UsernameNotFound)
-	badUser.GetArchives()
+	fmt.Println("Listening on port 8080")
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.HandleFunc("/", handlers.Index)
