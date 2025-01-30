@@ -2,3 +2,29 @@ body {
     background-color: bisque;
     text-align: center;
 }
+
+.content.main{
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.form {
+    padding-top: 1em;
+}
+
+.form-control {
+    display: inline;
+    max-width: 50%;
+}
+
+.input-label {
+    padding: .375rem .75rem;
+    font-weight:900;
+}
+
+.btn {
+    background-color: rgb(214, 135, 16);
+}
+
+.btn:hover {
+    background-color: rgb(235, 192, 128);
+}

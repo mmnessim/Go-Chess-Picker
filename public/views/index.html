@@ -1,9 +1,11 @@
 {{define "content"}}
-<div>
+<div class="container form form-group">
    <form action="/game" method="POST">
-        <label for="username">Chess.com username</label>
-        <input type="text" name="username" required placeholder="tenderllama"> <br />
-        <input type="submit">
+        <label for="username" class="input-label">Chess.com username</label>
+        <input type="text" name="username"
+        class="form-control"
+        required placeholder="username..."> <br />
+        <input type="submit" class="btn">
    </form>
 </div>
 {{end}}
