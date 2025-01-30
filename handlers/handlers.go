@@ -20,7 +20,13 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func Game(w http.ResponseWriter, r *http.Request) {
-	username := r.FormValue("username")
+	var username string
+	if r.Method == "POST" {
+		username = r.FormValue("username")
+	} else {
+		username = r.URL.Query().Get("username")
+	}
+
 	// For testing
 	fmt.Println(username)
 

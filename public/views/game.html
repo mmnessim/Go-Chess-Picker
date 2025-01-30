@@ -8,7 +8,9 @@
             {{ .White.Username }} ({{ .White.Rating }} ELO) vs
             {{ .Black.Username }} ({{ .Black.Rating }} ELO)
         </h1>
-        <h3> White {{ .White.Result }} Black {{ .Black.Result }}</h3>
+        <a href="/game?username={{ .User.Username }}" class="btn">Another!</a>
+        <a href="/" class="btn">Choose another user</a>
+        <h2> White {{ .White.Result }} Black {{ .Black.Result }}</h2>
         <a href="{{ .Url }}" target="_blank">Go Analyze on Chess.com</a>
         <ct-pgn-viewer>
             {{ .Pgn }}

@@ -11,6 +11,7 @@ import (
 )
 
 type Game struct {
+	User        user.ChessUser
 	Url         string
 	Pgn         string // Maybe needs to be map[string]interface{}
 	TimeControl string
@@ -66,6 +67,7 @@ func GetRandomGame(u *user.ChessUser) Game {
 	//fmt.Println(randomGame)
 
 	g := Game{
+		User:        *u,
 		Url:         randomGame["url"].(string),
 		Pgn:         randomGame["pgn"].(string),
 		TimeControl: randomGame["time_control"].(string),
