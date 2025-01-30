@@ -27,9 +27,6 @@ func Game(w http.ResponseWriter, r *http.Request) {
 		username = r.URL.Query().Get("username")
 	}
 
-	// For testing
-	fmt.Println(username)
-
 	person := user.New(username)
 	if person.UsernameNotFound {
 		// Redirect to index if invalid user
