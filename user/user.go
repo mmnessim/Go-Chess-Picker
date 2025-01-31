@@ -46,12 +46,14 @@ func (c *ChessUser) init() {
 	}
 
 	c.Info = bodyMap
-	if bodyMap["verified"] != nil {
-		c.Verified = bodyMap["verified"].(bool)
+	ver, ok := bodyMap["verified"].(bool)
+	if ok {
+		c.Verified = ver
 	}
 
-	if bodyMap["url"] != nil {
-		c.Url = bodyMap["url"].(string)
+	url, ok := bodyMap["url"].(string)
+	if ok {
+		c.Url = url
 	}
 
 	c.ApiUrl = apiUrl
