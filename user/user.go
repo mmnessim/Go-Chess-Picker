@@ -4,7 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"math/rand"
 	"net/http"
+
+	"go-chess/game"
 )
 
 type ChessUser struct {
@@ -14,6 +17,7 @@ type ChessUser struct {
 	ApiUrl           string
 	Archives         []string
 	Info             map[string]interface{}
+	Game             game.Game
 	UsernameNotFound bool
 }
 
@@ -83,5 +87,48 @@ func (c *ChessUser) GetArchives() {
 
 	for _, a := range tempArch {
 		c.Archives = append(c.Archives, a.(string))
+	}
+}
+
+func (u *ChessUser) GetRandomGame() {
+
+	// Handle invalid users or users with no games
+	if u.UsernameNotFound || len(u.Archives) == 0 {
+		u.Game = game.Game{Err: true}
+		return
+	}
+	randomArchive := u.Archives[rand.Intn(len(u.Archives))]
+	resp, err := http.Get(randomArchive)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	games := make(map[string]interface{})
+	json.Unmarshal(body, &games)
+
+	gameArray := games["games"].([]interface{})
+
+	randomGame := gameArray[rand.Intn(len(gameArray))].(map[string]interface{})
+
+	u.Game = game.Game{
+		Url:         randomGame["url"].(string),
+		Pgn:         randomGame["pgn"].(string),
+		TimeControl: randomGame["time_control"].(string),
+		Black: game.Black{
+			Username: randomGame["black"].(map[string]interface{})["username"].(string),
+			Rating:   randomGame["black"].(map[string]interface{})["rating"].(float64),
+			Result:   randomGame["black"].(map[string]interface{})["result"].(string),
+		},
+		White: game.White{
+			Username: randomGame["white"].(map[string]interface{})["username"].(string),
+			Rating:   randomGame["white"].(map[string]interface{})["rating"].(float64),
+			Result:   randomGame["white"].(map[string]interface{})["result"].(string),
+		},
 	}
 }

@@ -1,19 +1,19 @@
 {{define "content"}}
 <!-- Who knows if this needs to be here? -->
-{{ if .Err }}
+{{ if .Game.Err }}
 <p>Error</p>
 {{ else }}
     <div>
         <h1>
-            White: {{ .White.Username }} ({{ .White.Rating }} ELO) vs
-            Black: {{ .Black.Username }} ({{ .Black.Rating }} ELO)
+            White: {{ .Game.White.Username }} ({{ .Game.White.Rating }} ELO) vs
+            Black: {{ .Game.Black.Username }} ({{ .Game.Black.Rating }} ELO)
         </h1>
-        <h2> White {{ .White.Result }} Black {{ .Black.Result }}</h2>
-        <a href="/game?username={{ .User.Username }}" class="btn">Another!</a>
+        <h2> White {{ .Game.White.Result }} Black {{ .Game.Black.Result }}</h2>
+        <a href="/game?username={{ .Username }}" class="btn">Another!</a>
         <a href="/" class="btn">Choose another user</a> <br />
-        <a href="{{ .Url }}" target="_blank" class="btn">Go Analyze on Chess.com</a>
+        <a href="{{ .Game.Url }}" target="_blank" class="btn">Go Analyze on Chess.com</a>
         <ct-pgn-viewer>
-            {{ .Pgn }}
+            {{ .Game.Pgn }}
         </ct-pgn-viewer>
     </div>
     {{end}}

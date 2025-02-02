@@ -5,7 +5,6 @@ import (
 	"html/template"
 	"net/http"
 
-	"go-chess/game"
 	"go-chess/user"
 )
 
@@ -32,9 +31,9 @@ func Game(w http.ResponseWriter, r *http.Request) {
 		// Redirect to index if invalid user
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	} else {
-		randomGame := game.GetRandomGame(&person)
+		person.GetRandomGame()
 		// Redirect to index if no random game can be found
-		if randomGame.Err {
+		if person.Game.Err {
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
 
@@ -43,7 +42,7 @@ func Game(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, "Error %s", err)
 		}
 
-		templ.Execute(w, randomGame)
+		templ.Execute(w, person)
 	}
 
 }
