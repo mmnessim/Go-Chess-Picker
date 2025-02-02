@@ -2,6 +2,7 @@ package game
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"go-chess/user"
 	"io"
@@ -37,6 +38,42 @@ func (g *Game) Summary() {
 	fmt.Println("Go Analyze:", g.Url)
 }
 
+type GameNode struct {
+	Game  Game
+	Index int
+	Next  *GameNode
+}
+
+type GameList struct {
+	Head   *GameNode
+	Length int
+}
+
+func (gl *GameList) InsertAtHead(game Game) {
+	temp1 := &GameNode{game, gl.Length, nil}
+
+	if gl.Head == nil {
+		gl.Head = temp1
+	} else {
+		temp2 := gl.Head
+		gl.Head = temp1
+		temp1.Next = temp2
+	}
+	gl.Length += 1
+}
+
+func (gl *GameList) GetFromIndex(index int) (*Game, error) {
+	cur := gl.Head
+	for {
+		if cur.Index == index {
+			return &cur.Game, nil
+		} else if cur.Next == nil {
+			return nil, errors.New("index outside of bounds")
+		}
+		cur = cur.Next
+	}
+}
+
 // Returns Game struct
 func GetRandomGame(u *user.ChessUser) Game {
 
@@ -61,10 +98,7 @@ func GetRandomGame(u *user.ChessUser) Game {
 
 	gameArray := games["games"].([]interface{})
 
-	// for testing
-	//fmt.Println(len(gameArray))
 	randomGame := gameArray[rand.Intn(len(gameArray))].(map[string]interface{})
-	//fmt.Println(randomGame)
 
 	g := Game{
 		User:        *u,
