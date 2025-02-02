@@ -82,7 +82,7 @@ func GetRandomGame(u *user.ChessUser) Game {
 		return Game{Err: true}
 	}
 	randomArchive := u.Archives[rand.Intn(len(u.Archives))]
-	resp, err := http.Get(randomArchive.(string))
+	resp, err := http.Get(randomArchive)
 	if err != nil {
 		fmt.Println(err)
 	}
