@@ -26,14 +26,15 @@ func Game(w http.ResponseWriter, r *http.Request) {
 		username = r.URL.Query().Get("username")
 	}
 
-	person := user.New(username)
-	if person.UsernameNotFound {
+	u := user.New(username)
+	if u.UsernameNotFound {
 		// Redirect to index if invalid user
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	} else {
-		person.GetRandomGame()
+		u.GetRandomGame()
+
 		// Redirect to index if no random game can be found
-		if person.Game.Err {
+		if u.Game.Err {
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
 
@@ -42,7 +43,7 @@ func Game(w http.ResponseWriter, r *http.Request) {
 			fmt.Fprintf(w, "Error %s", err)
 		}
 
-		templ.Execute(w, person)
+		templ.Execute(w, u)
 	}
 
 }

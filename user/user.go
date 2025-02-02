@@ -11,13 +11,16 @@ import (
 )
 
 type ChessUser struct {
-	Username         string
-	Verified         bool
-	Url              string
-	ApiUrl           string
-	Archives         []string
-	Info             map[string]interface{}
-	Game             game.Game
+	Username string
+	Verified bool
+	Url      string
+	ApiUrl   string
+	Archives []string
+	Info     map[string]interface{}
+	Game     game.Game
+	History  game.GameList
+
+	// Error check
 	UsernameNotFound bool
 }
 
@@ -97,6 +100,7 @@ func (u *ChessUser) GetRandomGame() {
 		u.Game = game.Game{Err: true}
 		return
 	}
+
 	randomArchive := u.Archives[rand.Intn(len(u.Archives))]
 	resp, err := http.Get(randomArchive)
 	if err != nil {
@@ -131,4 +135,6 @@ func (u *ChessUser) GetRandomGame() {
 			Result:   randomGame["white"].(map[string]interface{})["result"].(string),
 		},
 	}
+
+	fmt.Println(u.History.Length)
 }
