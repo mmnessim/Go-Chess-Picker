@@ -18,7 +18,8 @@
         <div>
             <p>Previous games</p>
             {{ range $i, $a := .History }}
-                <a href="/history?id={{ $a.ID }}">{{ $a.ID }}</a>
+                <a href="/history?id={{ $a.ID }}">{{ $a.White.Username }} vs
+                    {{ $a.Black.Username }}</a>
             {{end}}
         </div>
     </div>

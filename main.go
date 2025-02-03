@@ -14,11 +14,13 @@ func main() {
 
 	index := middleware.Logging(handlers.Index)
 	showGame := middleware.Logging(handlers.Game)
+	showHistory := middleware.Logging(handlers.History)
 
 	fmt.Println("Listening on port 8080")
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	http.HandleFunc("/", index)
 	http.HandleFunc("/game", showGame)
+	http.HandleFunc("/history", showHistory)
 	http.ListenAndServe(":8080", nil)
 }
