@@ -15,7 +15,12 @@
         <ct-pgn-viewer>
             {{ .Game.Pgn }}
         </ct-pgn-viewer>
-        {{ len .History }}
+        <div>
+            <p>Previous games</p>
+            {{ range $i, $a := .History }}
+                <a href="/history?id={{ $a.ID }}">{{ $a.ID }}</a>
+            {{end}}
+        </div>
     </div>
     {{end}}
 {{end}}
