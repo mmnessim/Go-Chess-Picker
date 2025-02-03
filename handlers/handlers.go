@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"net/http"
 
+	"go-chess/db"
 	"go-chess/user"
 )
 
@@ -20,6 +21,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 func Game(w http.ResponseWriter, r *http.Request) {
 	var username string
+
 	if r.Method == "POST" {
 		username = r.FormValue("username")
 	} else {
@@ -27,11 +29,17 @@ func Game(w http.ResponseWriter, r *http.Request) {
 	}
 
 	u := user.New(username)
+
 	if u.UsernameNotFound {
 		// Redirect to index if invalid user
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	} else {
+		history := db.Init()
+		defer history.Close()
+		u.History = db.GetAll(history)
+
 		u.GetRandomGame()
+		db.Insert(u.Game, history)
 
 		// Redirect to index if no random game can be found
 		if u.Game.Err {

@@ -6,6 +6,7 @@ import (
 )
 
 type Game struct {
+	ID          int
 	Url         string
 	Pgn         string // Maybe needs to be map[string]interface{}
 	TimeControl string

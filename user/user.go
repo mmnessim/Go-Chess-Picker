@@ -18,8 +18,7 @@ type ChessUser struct {
 	Archives []string
 	Info     map[string]interface{}
 	Game     game.Game
-	History  game.GameList
-
+	History  []game.Game
 	// Error check
 	UsernameNotFound bool
 }
@@ -136,5 +135,4 @@ func (u *ChessUser) GetRandomGame() {
 		},
 	}
 
-	fmt.Println(u.History.Length)
 }
