@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+	"strconv"
 
 	"go-chess/db"
 	"go-chess/user"
@@ -53,5 +54,23 @@ func Game(w http.ResponseWriter, r *http.Request) {
 
 		templ.Execute(w, u)
 	}
+
+}
+
+func History(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("id")
+	idInt, err := strconv.ParseInt(id, 0, 64)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	history := db.Init()
+	defer history.Close()
+
+	g := db.GetById(int(idInt), history)
+	_ = g
+
+	// TODO make history.html
+	// Template for game input instead of user input
 
 }
