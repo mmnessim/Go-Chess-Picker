@@ -70,8 +70,6 @@ func History(w http.ResponseWriter, r *http.Request) {
 	g := db.GetById(int(idInt), history)
 	_ = g
 
-	// TODO make history.html
-	// Template for game input instead of user input
 	templ, err := template.ParseFiles("public/views/layout.html", "public/views/history.html")
 	if err != nil {
 		fmt.Fprintf(w, "Error %s", err)
