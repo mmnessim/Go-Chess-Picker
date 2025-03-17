@@ -29,6 +29,31 @@ func New(username string) ChessUser {
 	return c
 }
 
+type UserList struct {
+	Players []string `json:"players"`
+}
+
+func GetRandomUser() (ChessUser, error) {
+	resp, err := http.Get("https://api.chess.com/pub/country/US/players")
+	if err != nil {
+		fmt.Println(err)
+		return ChessUser{}, err
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+		return ChessUser{}, err
+	}
+
+	users := UserList{}
+	json.Unmarshal(body, &users)
+
+	randomUser := users.Players[rand.Intn(len(users.Players))]
+	return ChessUser{Username: randomUser}, nil
+}
+
 func (c *ChessUser) init() {
 	apiUrl := "https://api.chess.com/pub/player/" + c.Username
 	resp, err := http.Get(apiUrl)
