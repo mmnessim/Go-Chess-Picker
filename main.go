@@ -21,6 +21,7 @@ func main() {
 	index := middleware.Logging(handlers.Index)
 	showGame := middleware.Logging(handlers.Game)
 	showHistory := middleware.Logging(handlers.History)
+	showGuess := middleware.Logging(handlers.Guess)
 
 	fmt.Println("Listening on port 8080")
 
@@ -28,5 +29,6 @@ func main() {
 	http.HandleFunc("/", index)
 	http.HandleFunc("/game", showGame)
 	http.HandleFunc("/history", showHistory)
+	http.HandleFunc("/guess", showGuess)
 	http.ListenAndServe(":8080", nil)
 }
