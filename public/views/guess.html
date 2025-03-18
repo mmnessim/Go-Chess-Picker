@@ -1,5 +1,4 @@
 {{define "content"}}
-<!-- Who knows if this needs to be here? -->
 {{ if .Game.Err }}
 <p>Error</p>
 {{ else }}
@@ -10,7 +9,7 @@
         </h1>
         <h2> White {{ .Game.White.Result }} Black {{ .Game.Black.Result }}</h2>
         <div>
-            <input type="text" placeholder="average elo"></input>
+            <input type="text" placeholder="average elo" id="user_guess"></input>
             <button onclick="showElo()" class="btn">Guess!</button>
             <h3 id="elo" style="display: none;">White ELO {{ .Game.White.Rating }} Black ELO {{ .Game.Black.Rating }}</h3>
         </div>
