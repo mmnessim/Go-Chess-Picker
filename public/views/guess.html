@@ -1,0 +1,39 @@
+{{define "content"}}
+<!-- Who knows if this needs to be here? -->
+{{ if .Game.Err }}
+<p>Error</p>
+{{ else }}
+    <div>
+        <h1>
+            White: {{ .Game.White.Username }} vs
+            Black: {{ .Game.Black.Username }}
+        </h1>
+        <h2> White {{ .Game.White.Result }} Black {{ .Game.Black.Result }}</h2>
+        <div>
+            <input type="text" placeholder="average elo"></input>
+            <button onclick="showElo()" class="btn">Guess!</button>
+            <h3 id="elo" style="display: none;">White ELO {{ .Game.White.Rating }} Black ELO {{ .Game.Black.Rating }}</h3>
+        </div>
+
+        <a href="/guess" class="btn">Another!</a>
+        <a href="{{ .Game.Url }}" target="_blank" class="btn">Go Analyze on Chess.com</a>
+        <ct-pgn-viewer>
+            {{ .Game.Pgn }}
+        </ct-pgn-viewer>
+        <div>
+            <p>Previous games</p>
+            {{ range $i, $a := .History }}
+                <a href="/history?id={{ $a.ID }}">{{ $a.White.Username }} vs
+                    {{ $a.Black.Username }}</a>
+            {{end}}
+        </div>
+    </div>
+
+    <script>
+        function showElo() {
+            var h3 = document.getElementById("elo");
+            h3.style.display = "block";
+        }
+    </script>
+    {{end}}
+{{end}}

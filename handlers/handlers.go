@@ -79,7 +79,7 @@ func Guess(w http.ResponseWriter, r *http.Request) {
 			http.Redirect(w, r, "/", http.StatusSeeOther)
 		}
 
-		templ, err := template.ParseFiles("public/views/layout.html", "public/views/game.html")
+		templ, err := template.ParseFiles("public/views/layout.html", "public/views/guess.html")
 		if err != nil {
 			fmt.Fprintf(w, "Error %s", err)
 		}

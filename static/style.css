@@ -29,3 +29,7 @@ body {
 .btn:hover {
     background-color: rgb(235, 192, 128);
 }
+
+span.ct-game-header-players {
+    display: none;
+}
