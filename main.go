@@ -1,19 +1,27 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
 
-	"go-chess/db"
 	"go-chess/handlers"
 	"go-chess/middleware"
+	randomuser "go-chess/randomUser"
 )
 
 func main() {
 	os.Remove("./chess.db")
-	usersDB := db.UsersInit()
-	usersDB.Close()
+	if _, err := os.Stat("./users.db"); errors.Is(err, os.ErrNotExist) {
+		// path/to/whatever does not exist
+		randomuser.PopulateAllUsers()
+	}
+	u := randomuser.GetRandomUser()
+	//fmt.Println(u)
+	_ = u
+	//usersDB := db.UsersInit()
+	//usersDB.Close()
 
 	index := middleware.Logging(handlers.Index)
 	showGame := middleware.Logging(handlers.Game)

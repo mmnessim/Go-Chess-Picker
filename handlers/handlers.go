@@ -60,8 +60,7 @@ func Game(w http.ResponseWriter, r *http.Request) {
 
 func Guess(w http.ResponseWriter, r *http.Request) {
 
-	ul := randomuser.GetAllUsers()
-	u := ul.GetRandomUser()
+	u := randomuser.GetRandomUser()
 
 	if u.UsernameNotFound {
 		// Redirect to index if invalid user

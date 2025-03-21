@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"go-chess/game"
-	"go-chess/user"
 
 	_ "github.com/glebarez/go-sqlite"
 )
@@ -31,14 +30,18 @@ func UsersInit() *sql.DB {
 	return db
 }
 
-func AddUser(u user.ChessUser, db *sql.DB) {
+func AddUser(username string, db *sql.DB) {
 	query := `INSERT INTO users (username) values(?);`
-	db.Exec(query, u.Username)
+	db.Exec(query, username)
 }
 
-func RemoveUser(u user.ChessUser, db *sql.DB) {
-	query := `DELTE FROM users WHERE username = ` + u.Username + `;`
-	db.Exec(query)
+func RemoveUser(username string, db *sql.DB) {
+	query := `DELETE FROM users WHERE username = ` + username + `;`
+	_, err := db.Exec(query)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 }
 
 func Init() *sql.DB {
