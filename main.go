@@ -11,17 +11,24 @@ import (
 	randomuser "go-chess/randomUser"
 )
 
+// TODO
+// Refactor randomUser.go
+// UserList struct can probably be removed altogether
+// PopulateAllUsers() and GetRandomUser() should be put into db.go
+// db.go should maybe be renamed?
+//
+// PopulateAllUsers() should have the ability to add new users into the db
+// maybe with a whole new function
+//
+// index.html needs a button to get to Guess-The-ELO
+// Some kind of result message should appear based on guesses
+// Maybe there can be six guesses like wordle?
+
 func main() {
 	os.Remove("./chess.db")
 	if _, err := os.Stat("./users.db"); errors.Is(err, os.ErrNotExist) {
-		// path/to/whatever does not exist
 		randomuser.PopulateAllUsers()
 	}
-	u := randomuser.GetRandomUser()
-	//fmt.Println(u)
-	_ = u
-	//usersDB := db.UsersInit()
-	//usersDB.Close()
 
 	index := middleware.Logging(handlers.Index)
 	showGame := middleware.Logging(handlers.Game)
