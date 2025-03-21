@@ -4,9 +4,42 @@ import (
 	"database/sql"
 	"fmt"
 	"go-chess/game"
+	"go-chess/user"
 
 	_ "github.com/glebarez/go-sqlite"
 )
+
+// Users Database
+func UsersInit() *sql.DB {
+	db, err := sql.Open("sqlite", "./users.db")
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println("Connected to users database")
+	}
+
+	query := `CREATE TABLE IF NOT EXISTS users (
+	ID INTEGER PRIMARY KEY AUTOINCREMENT,
+	username TEXT
+	);`
+	_, err = db.Exec(query)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return db
+}
+
+func AddUser(u user.ChessUser, db *sql.DB) {
+	query := `INSERT INTO users (username) values(?);`
+	db.Exec(query, u.Username)
+}
+
+func RemoveUser(u user.ChessUser, db *sql.DB) {
+	query := `DELTE FROM users WHERE username = ` + u.Username + `;`
+	db.Exec(query)
+}
 
 func Init() *sql.DB {
 	db, err := sql.Open("sqlite", "./chess.db")

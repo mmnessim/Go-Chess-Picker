@@ -5,18 +5,15 @@ import (
 	"net/http"
 	"os"
 
+	"go-chess/db"
 	"go-chess/handlers"
 	"go-chess/middleware"
-	randomuser "go-chess/randomUser"
 )
 
 func main() {
 	os.Remove("./chess.db")
-
-	ul := randomuser.GetAllUsers()
-	user := ul.GetRandomUser()
-	fmt.Println(user.Game.Black.Username)
-	fmt.Println(user.Game)
+	usersDB := db.UsersInit()
+	usersDB.Close()
 
 	index := middleware.Logging(handlers.Index)
 	showGame := middleware.Logging(handlers.Game)
