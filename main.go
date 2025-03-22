@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"os"
 
+	"go-chess/db"
 	"go-chess/handlers"
 	"go-chess/middleware"
-	randomuser "go-chess/randomUser"
 )
 
 // TODO
@@ -26,8 +26,10 @@ import (
 
 func main() {
 	os.Remove("./chess.db")
+	list := db.New()
+	defer list.Database.Close()
 	if _, err := os.Stat("./users.db"); errors.Is(err, os.ErrNotExist) {
-		randomuser.PopulateAllUsers()
+		//randomuser.PopulateAllUsers()
 	}
 
 	index := middleware.Logging(handlers.Index)

@@ -2,13 +2,122 @@ package db
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"go-chess/game"
+	"go-chess/user"
+	"io"
+	"net/http"
 
 	_ "github.com/glebarez/go-sqlite"
 )
 
-// Users Database
+type AllUsers struct {
+	Database *sql.DB
+}
+
+func New() *AllUsers {
+	db, err := sql.Open("sqlite", "./users.db")
+	if err != nil {
+		fmt.Println(err)
+	} else {
+		fmt.Println("Connected to users database")
+	}
+	query := `CREATE TABLE IF NOT EXISTS users (
+		ID INTEGER PRIMARY KEY AUTOINCREMENT,
+		username TEXT
+		);`
+	_, err = db.Exec(query)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return &AllUsers{
+		Database: db,
+	}
+}
+
+func (al *AllUsers) PopulateAllUsers() {
+	userlist := getAllUsers()
+
+	for _, u := range userlist.Players {
+		al.AddUser(u)
+		fmt.Printf("Added user %s\n", u)
+	}
+}
+
+// Editing DB functions
+func (al *AllUsers) AddUser(username string) {
+	query := `INSERT INTO users (username) values(?);`
+	al.Database.Exec(query, username)
+}
+
+func (al *AllUsers) RemoveUser(username string) {
+	query := `DELETE FROM users WHERE username = ` + username + `;`
+	_, err := al.Database.Exec(query)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+// TODO FIX THIS
+func (al *AllUsers) GetRandomUser() user.ChessUser {
+
+	type record struct {
+		Id       int
+		Username string
+	}
+
+	query := `SELECT * FROM users ORDER BY RANDOM() LIMIT 1;`
+	row, err := al.Database.Query(query)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	var result record = record{}
+
+	for row.Next() {
+		err = row.Scan(&result.Id, &result.Username)
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
+	user := user.New(result.Username)
+	user.GetRandomGame()
+	if user.Game.Err {
+		fmt.Println("User has no games, removing...")
+		al.RemoveUser(result.Username)
+		al.GetRandomUser()
+	}
+	return user
+}
+
+// Helpers to populate the database
+type UserList struct {
+	Players []string `json:"players"`
+}
+
+func getAllUsers() UserList {
+	resp, err := http.Get("https://api.chess.com/pub/country/US/players")
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	users := UserList{}
+	json.Unmarshal(body, &users)
+
+	return users
+}
+
+/* CAN PROBABLY BE DELETED
 func UsersInit() *sql.DB {
 	db, err := sql.Open("sqlite", "./users.db")
 	if err != nil {
@@ -29,20 +138,9 @@ func UsersInit() *sql.DB {
 
 	return db
 }
+*/
 
-func AddUser(username string, db *sql.DB) {
-	query := `INSERT INTO users (username) values(?);`
-	db.Exec(query, username)
-}
-
-func RemoveUser(username string, db *sql.DB) {
-	query := `DELETE FROM users WHERE username = ` + username + `;`
-	_, err := db.Exec(query)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-}
+// History Database functions
 
 func Init() *sql.DB {
 	db, err := sql.Open("sqlite", "./chess.db")

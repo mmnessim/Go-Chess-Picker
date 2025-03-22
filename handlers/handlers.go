@@ -7,7 +7,6 @@ import (
 	"strconv"
 
 	"go-chess/db"
-	randomuser "go-chess/randomUser"
 	"go-chess/user"
 )
 
@@ -59,8 +58,10 @@ func Game(w http.ResponseWriter, r *http.Request) {
 }
 
 func Guess(w http.ResponseWriter, r *http.Request) {
+	allusers := db.New()            // Connect to DB
+	defer allusers.Database.Close() // Close at end of scope
 
-	u := randomuser.GetRandomUser()
+	u := allusers.GetRandomUser()
 
 	if u.UsernameNotFound {
 		// Redirect to index if invalid user
