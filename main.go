@@ -26,10 +26,10 @@ import (
 
 func main() {
 	os.Remove("./chess.db")
-	list := db.New()
-	defer list.Database.Close()
 	if _, err := os.Stat("./users.db"); errors.Is(err, os.ErrNotExist) {
-		//randomuser.PopulateAllUsers()
+		list := db.New()
+		defer list.Database.Close()
+		list.PopulateAllUsers()
 	}
 
 	index := middleware.Logging(handlers.Index)
