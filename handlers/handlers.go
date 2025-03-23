@@ -110,3 +110,11 @@ func History(w http.ResponseWriter, r *http.Request) {
 	templ.Execute(w, g)
 
 }
+
+func About(w http.ResponseWriter, r *http.Request) {
+	templ, err := template.ParseFiles("public/views/layout.html", "public/views/about.html")
+	if err != nil {
+		fmt.Fprintf(w, "Error %s", err)
+	}
+	templ.Execute(w, nil)
+}
