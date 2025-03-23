@@ -1,0 +1,6 @@
+services:
+  chesspicker:
+    ports:
+      - 8888:8080
+    build: .
+    container_name: chesspicker
