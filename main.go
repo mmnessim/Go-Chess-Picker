@@ -30,6 +30,7 @@ func main() {
 		list := db.New()
 		defer list.Database.Close()
 		list.PopulateAllUsers()
+		db.GetLeaderboard()
 	}
 
 	index := middleware.Logging(handlers.Index)
