@@ -14,6 +14,7 @@
         <ct-pgn-viewer>
             {{ .Game.Pgn }}
         </ct-pgn-viewer>
+        <!--
         <div>
             <p>Previous games</p>
             {{ range $i, $a := .History }}
@@ -21,6 +22,7 @@
                     {{ $a.Black.Username }}</a>
             {{end}}
         </div>
+        -->
     </div>
     {{end}}
 {{end}}

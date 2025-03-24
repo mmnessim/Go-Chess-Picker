@@ -33,3 +33,8 @@ body {
 span.ct-game-header-players {
     display: none;
 }
+
+chess-board {
+    width: 35rem!important;
+    height: 35rem!important;
+}
