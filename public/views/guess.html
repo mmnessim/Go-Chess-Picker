@@ -10,7 +10,7 @@
         <h2>Guess the average rating of these players</h2>
         <div>
             <input type="text" placeholder="average elo" id="user_guess"></input>
-            <button onclick="showElo()" class="btn">Guess!</button>
+            <button onclick="showElo()" class="btn" id="guess_button">Guess!</button>
 
             <h3 id="average-rating" style="display: none;">Average rating: </h3>
             <p id="elo" style="display: none;">White ELO <span id="white-rating">{{ .Game.White.Rating }}</span>
@@ -37,8 +37,13 @@
         function showElo() {
             var result = document.getElementById("elo");
             result.style.display = "block";
+
             var userGuess = document.getElementById("user_guess");
             userGuess.style.display = "none";
+
+            var button = document.getElementById("guess_button");
+            button.style.display = "none";
+
             const blk = Number(document.getElementById("black-rating").innerText);
             const wht = Number(document.getElementById("white-rating").innerText);
             average(blk, wht);
