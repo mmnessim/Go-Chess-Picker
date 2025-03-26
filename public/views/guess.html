@@ -4,16 +4,17 @@
 {{ else }}
     <div>
         <h1>
-            White: {{ .Game.White.Username }} ({{ .Game.White.Result }}) vs
-            Black: {{ .Game.Black.Username }} ({{ .Game.Black.Result }})
+            White: {{ .Game.White.Result }} vs
+            Black: {{ .Game.Black.Result }}
         </h1>
         <h2>Guess the average rating of these players</h2>
         <div>
             <input type="text" placeholder="average elo" id="user_guess"></input>
             <button onclick="showElo()" class="btn">Guess!</button>
-            <h3 id="elo" style="display: none;">White ELO <span id="white-rating">{{ .Game.White.Rating }}</span>
-                Black ELO <span id="black-rating">{{ .Game.Black.Rating }}</span></h3>
+
             <h3 id="average-rating" style="display: none;">Average rating: </h3>
+            <p id="elo" style="display: none;">White ELO <span id="white-rating">{{ .Game.White.Rating }}</span>
+                Black ELO <span id="black-rating">{{ .Game.Black.Rating }}</span></p>
         </div>
 
         <a href="/guess" class="btn">Another!</a>
@@ -34,8 +35,10 @@
 
     <script>
         function showElo() {
-            var h3 = document.getElementById("elo");
-            h3.style.display = "block";
+            var result = document.getElementById("elo");
+            result.style.display = "block";
+            var userGuess = document.getElementById("user_guess");
+            userGuess.style.display = "none";
             const blk = Number(document.getElementById("black-rating").innerText);
             const wht = Number(document.getElementById("white-rating").innerText);
             average(blk, wht);
@@ -43,8 +46,9 @@
         function average(black, white) {
             const avg = (black + white) / 2;
             var element = document.getElementById("average-rating");
+            const userGuess = document.getElementById("user_guess").value;
             element.style.display = "block";
-            element.innerText = "Average rating: " + avg;
+            element.innerText = "Average rating: " + avg + " You guessed: " + userGuess;
         }
     </script>
     {{end}}
