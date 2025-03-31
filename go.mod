@@ -2,7 +2,10 @@ module go-chess
 
 go 1.23.4
 
-require github.com/glebarez/go-sqlite v1.22.0
+require (
+	github.com/glebarez/go-sqlite v1.22.0
+	golang.org/x/text v0.23.0
+)
 
 require (
 	github.com/dustin/go-humanize v1.0.1 // indirect

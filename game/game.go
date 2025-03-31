@@ -9,6 +9,7 @@ type Game struct {
 	Url         string
 	Pgn         string // Maybe needs to be map[string]interface{}
 	TimeControl string
+	TimeClass   string
 	Black       Black
 	White       White
 	Err         bool

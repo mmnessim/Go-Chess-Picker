@@ -8,6 +8,9 @@ import (
 	"net/http"
 
 	"go-chess/game"
+
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 type ChessUser struct {
@@ -123,6 +126,7 @@ func (u *ChessUser) GetRandomGame() {
 		Url:         randomGame["url"].(string),
 		Pgn:         randomGame["pgn"].(string),
 		TimeControl: randomGame["time_control"].(string),
+		TimeClass:   randomGame["time_class"].(string),
 		Black: game.Black{
 			Username: randomGame["black"].(map[string]interface{})["username"].(string),
 			Rating:   randomGame["black"].(map[string]interface{})["rating"].(float64),
@@ -134,5 +138,6 @@ func (u *ChessUser) GetRandomGame() {
 			Result:   randomGame["white"].(map[string]interface{})["result"].(string),
 		},
 	}
-
+	caser := cases.Title(language.English)
+	u.Game.TimeClass = caser.String(u.Game.TimeClass)
 }
