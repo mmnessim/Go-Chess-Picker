@@ -9,4 +9,5 @@ FROM debian:bookworm-slim
 WORKDIR /chess
 COPY --from=0 /build .
 RUN apt-get update && apt-get install -y ca-certificates
+EXPOSE 8080
 ENTRYPOINT ["./app"]
